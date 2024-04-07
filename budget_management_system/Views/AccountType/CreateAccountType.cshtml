@@ -7,10 +7,12 @@
 <h1>Crear tipo de ceunta</h1>
 <h5>Tipos de cuentas: Credito, Corriente, Ahorro, etc.</h5>
 
-<form asp-controller="AccountTypeController" asp-action="CreateAccountType">
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form asp-controller="AccountType" asp-action="CreateAccountType">
 	<div class="mb-3">
-		<label for="Name" class="form-label">Name:</label>
-		<input type="text" name="Name" id="Name" class="form-control" />
+		<label asp-for="Name" class="form-label"></label>
+		<input type="text" asp-for="Name" class="form-control" />
 	</div>
 	<button type="submit" class="btn btn-primary">Send</button>
 </form>
