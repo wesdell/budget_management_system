@@ -14,6 +14,11 @@ namespace budget_management_system.Controllers
 		[HttpPost]
 		public IActionResult CreateAccountType(AccountTypeModel accountType)
 		{
+			if (!ModelState.IsValid)
+			{
+				return View(accountType);
+			}
+
 			return View();
 		}
 	}
