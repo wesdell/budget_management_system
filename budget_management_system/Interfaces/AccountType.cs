@@ -12,6 +12,6 @@ namespace budget_management_system.Interfaces
 
 	public interface IAccountTypeDBActions
 	{
-		void CreateAccountType(AccountTypeModel accountType);
+		Task CreateAccountType(AccountTypeModel accountType);
 	}
 }
