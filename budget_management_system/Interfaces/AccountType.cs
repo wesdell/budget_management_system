@@ -1,4 +1,6 @@
-﻿namespace budget_management_system.Interfaces
+﻿using budget_management_system.Models;
+
+namespace budget_management_system.Interfaces
 {
 	public interface IAccountType
 	{
@@ -6,5 +8,10 @@
 		string Name { get; set; }
 		int Order { get; set; }
 		int UserId { get; set; }
+	}
+
+	public interface IAccountTypeDBActions
+	{
+		void CreateAccountType(AccountTypeModel accountType);
 	}
 }
