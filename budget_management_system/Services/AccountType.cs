@@ -14,10 +14,12 @@ namespace budget_management_system.Services
 			this.connectionString = configuration.GetConnectionString("DefaultConnection");
 		}
 
-		public void CreateAccountType(AccountTypeModel accountType)
+		public async Task CreateAccountType(AccountTypeModel accountType)
 		{
 			using SqlConnection connection = new SqlConnection(connectionString);
-			int id = connection.QuerySingle<int>($@"INSERT INTO AccountType (name, user_id, ""order"") VALUES (@Name, @UserId, 0); SELECT SCOPE_IDENTITY();", accountType);
+			int id = await connection.QuerySingleAsync<int>(
+				$@"INSERT INTO AccountType (name, user_id, ""order"") VALUES (@Name, @UserId, 0); SELECT SCOPE_IDENTITY();",
+				accountType);
 
 			accountType.Id = id;
 		}

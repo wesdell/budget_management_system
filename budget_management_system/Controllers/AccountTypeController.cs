@@ -20,7 +20,7 @@ namespace budget_management_system.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult CreateAccountType(AccountTypeModel accountTypeData)
+		public async Task<IActionResult> CreateAccountType(AccountTypeModel accountTypeData)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -28,7 +28,7 @@ namespace budget_management_system.Controllers
 			}
 
 			accountTypeData.UserId = 1;
-			this._accountType.CreateAccountType(accountTypeData);
+			await this._accountType.CreateAccountType(accountTypeData);
 
 			return View();
 		}
