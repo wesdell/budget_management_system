@@ -1,3 +1,6 @@
+using budget_management_system.Interfaces;
+using budget_management_system.Services;
+
 namespace budget_management_system
 {
 	public class Program
@@ -8,6 +11,7 @@ namespace budget_management_system
 
 			// Add services to the container.
 			builder.Services.AddControllersWithViews();
+			builder.Services.AddTransient<IAccountTypeDBActions, AccountType>();
 
 			var app = builder.Build();
 
