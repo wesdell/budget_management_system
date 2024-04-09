@@ -14,5 +14,6 @@ namespace budget_management_system.Interfaces
 	{
 		Task CreateAccountType(AccountTypeModel accountType);
 		Task<bool> AccountAlreadyExists(string accountName, int userId);
+		Task<IEnumerable<AccountTypeModel>> GetAccountTypes(int userId);
 	}
 }
