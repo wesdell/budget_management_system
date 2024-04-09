@@ -13,5 +13,6 @@ namespace budget_management_system.Interfaces
 	public interface IAccountTypeDBActions
 	{
 		Task CreateAccountType(AccountTypeModel accountType);
+		Task<bool> AccountAlreadyExists(string accountName, int userId);
 	}
 }
