@@ -1,0 +1,33 @@
+﻿@model IEnumerable<AccountTypeModel>
+
+@{
+	ViewData["Title"] = "Account types";
+}
+
+<h1>Account types list</h1>
+<h5>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</h5>
+
+<a asp-action="CreateAccountType" class="btn btn-primary mb-3">Add</a>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach(var accountType in Model)
+		{
+			<tr>
+				<td>
+					@accountType.Name
+				</td>
+				<td>
+					<a class="btn btn-primary">Edit</a>
+					<a class="btn btn-danger">Delete</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
