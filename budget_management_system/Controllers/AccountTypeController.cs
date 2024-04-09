@@ -19,6 +19,17 @@ namespace budget_management_system.Controllers
 			return View();
 		}
 
+		[HttpGet]
+		public async Task<IActionResult> CheckAccountTypeAlreadyExists(string name)
+		{
+			bool accountTypeAlreadyExists = await _accountType.AccountAlreadyExists(name, 1);
+			if (accountTypeAlreadyExists)
+			{
+				return Json($"{name} account already exists.");
+			}
+			return Json(true);
+		}
+
 		[HttpPost]
 		public async Task<IActionResult> CreateAccountType(AccountTypeModel accountTypeData)
 		{
