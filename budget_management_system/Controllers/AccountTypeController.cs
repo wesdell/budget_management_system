@@ -14,6 +14,13 @@ namespace budget_management_system.Controllers
 		}
 
 		[HttpGet]
+		public async Task<IActionResult> Index()
+		{
+			IEnumerable<AccountTypeModel> accountTypes = await _accountType.GetAccountTypes(1);
+			return View(accountTypes);
+		}
+
+		[HttpGet]
 		public IActionResult CreateAccountType()
 		{
 			return View();
@@ -50,7 +57,7 @@ namespace budget_management_system.Controllers
 
 			await this._accountType.CreateAccountType(accountTypeData);
 
-			return View();
+			return RedirectToAction("Index");
 		}
 	}
 }
