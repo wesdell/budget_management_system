@@ -18,10 +18,19 @@ namespace budget_management_system.Services
 		{
 			using SqlConnection connection = new SqlConnection(connectionString);
 			int id = await connection.QuerySingleAsync<int>(
-				$@"INSERT INTO AccountType (name, user_id, ""order"") VALUES (@Name, @UserId, 0); SELECT SCOPE_IDENTITY();",
+				@"INSERT INTO AccountType (name, user_id, ""order"") VALUES (@Name, @UserId, 0); SELECT SCOPE_IDENTITY();",
 				accountType);
 
 			accountType.Id = id;
+		}
+
+		public async Task<bool> AccountAlreadyExists(string accountName, int userId)
+		{
+			using SqlConnection connection = new SqlConnection(connectionString);
+			int recordExists = await connection.QueryFirstOrDefaultAsync<int>(
+				@"SELECT 1 FROM AccountType WHERE name = @Name AND user_id = @UserId;",
+				new { Name = accountName, UserId = userId });
+			return recordExists == 1;
 		}
 	}
 }
