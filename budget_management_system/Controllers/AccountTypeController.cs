@@ -28,6 +28,15 @@ namespace budget_management_system.Controllers
 			}
 
 			accountTypeData.UserId = 1;
+
+			bool recordExists = await _accountType.AccountAlreadyExists(accountTypeData.Name, accountTypeData.UserId);
+
+			if (recordExists)
+			{
+				ModelState.AddModelError(nameof(accountTypeData.Name), $"{accountTypeData.Name} account already exists.");
+				return View(accountTypeData);
+			}
+
 			await this._accountType.CreateAccountType(accountTypeData);
 
 			return View();
