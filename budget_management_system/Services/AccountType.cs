@@ -29,8 +29,18 @@ namespace budget_management_system.Services
 			using SqlConnection connection = new SqlConnection(connectionString);
 			int recordExists = await connection.QueryFirstOrDefaultAsync<int>(
 				@"SELECT 1 FROM AccountType WHERE name = @Name AND user_id = @UserId;",
-				new { Name = accountName, UserId = userId });
+				new { Name = accountName, UserId = userId }
+				);
 			return recordExists == 1;
+		}
+
+		public async Task<IEnumerable<AccountTypeModel>> GetAccountTypes(int userId)
+		{
+			using SqlConnection connection = new SqlConnection(connectionString);
+			return await connection.QueryAsync<AccountTypeModel>(
+				@"SELECT id, name, ""order"" FROM AccountType WHERE user_id = @UserId",
+				new { UserId = userId }
+				);
 		}
 	}
 }
