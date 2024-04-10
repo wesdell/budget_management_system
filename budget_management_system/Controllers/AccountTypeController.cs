@@ -40,6 +40,17 @@ namespace budget_management_system.Controllers
 		}
 
 		[HttpGet]
+		public async Task<IActionResult> ConfirmDeleteAccountType(int id)
+		{
+			AccountTypeModel accountType = await this._accountType.GetAccountTypeById(id, this._userData.GetUserId());
+			if (accountType is null)
+			{
+				return RedirectToAction("NotFound", "Home");
+			}
+			return View(accountType);
+		}
+
+		[HttpGet]
 		public async Task<IActionResult> CheckAccountTypeAlreadyExists(string name)
 		{
 			bool accountTypeAlreadyExists = await _accountType.AccountAlreadyExists(name, _userData.GetUserId());
@@ -82,6 +93,18 @@ namespace budget_management_system.Controllers
 				return RedirectToAction("NotFound", "Home");
 			}
 			await this._accountType.UpdateAccountType(accountTypeData);
+			return RedirectToAction("Index");
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> DeleteAccountType(int id)
+		{
+			AccountTypeModel accountType = await this._accountType.GetAccountTypeById(id, this._userData.GetUserId());
+			if (accountType is null)
+			{
+				return RedirectToAction("NotFound", "Home");
+			}
+			await this._accountType.DeleteAccountType(id);
 			return RedirectToAction("Index");
 		}
 	}
