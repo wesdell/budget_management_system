@@ -13,7 +13,14 @@ namespace budget_management_system.Controllers
 			_logger = logger;
 		}
 
+		[HttpGet]
 		public IActionResult Index()
+		{
+			return View();
+		}
+
+		[HttpGet]
+		public IActionResult NotFound()
 		{
 			return View();
 		}
