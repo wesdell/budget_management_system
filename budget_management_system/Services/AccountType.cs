@@ -38,7 +38,7 @@ namespace budget_management_system.Services
 		{
 			using SqlConnection connection = new SqlConnection(connectionString);
 			return await connection.QueryAsync<AccountTypeModel>(
-				@"SELECT id, name, ""order"" FROM AccountType WHERE user_id = @UserId",
+				@"SELECT id, name, ""order"" FROM AccountType WHERE user_id = @UserId ORDER BY ""order""",
 				new { UserId = userId }
 				);
 		}
@@ -67,6 +67,15 @@ namespace budget_management_system.Services
 			await connection.ExecuteAsync(
 				@"DELETE AccountType WHERE id = @Id",
 				new { Id = id }
+				);
+		}
+
+		public async Task OrderAccountTypes(IEnumerable<AccountTypeModel> accountTypesOrdered)
+		{
+			using SqlConnection connection = new SqlConnection(connectionString);
+			await connection.ExecuteAsync(
+				@"UPDATE AccountType SET ""order"" = @Order WHERE id = @Id",
+				accountTypesOrdered
 				);
 		}
 	}
