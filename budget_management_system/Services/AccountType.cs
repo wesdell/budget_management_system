@@ -42,5 +42,23 @@ namespace budget_management_system.Services
 				new { UserId = userId }
 				);
 		}
+
+		public async Task<AccountTypeModel> GetAccountTypeById(int id, int userId)
+		{
+			using SqlConnection connection = new SqlConnection(connectionString);
+			return await connection.QueryFirstOrDefaultAsync<AccountTypeModel>(
+				@"SELECT id, name, ""order"" FROM AccountType WHERE id = @Id AND user_id = @UserId",
+				new { Id = id, UserId = userId }
+				);
+		}
+
+		public async Task UpdateAccountType(AccountTypeModel accountType)
+		{
+			using SqlConnection connection = new SqlConnection(connectionString);
+			await connection.ExecuteAsync(
+				@"UPDATE AccountType SET name = @Name WHERE id = @Id",
+				accountType
+				);
+		}
 	}
 }
