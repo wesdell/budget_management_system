@@ -24,6 +24,7 @@
 					@accountType.Name
 				</td>
 				<td>
+					<input type="hidden" value=@accountType.Id class="account-id" />
 					<a class="btn btn-primary" asp-action="UpdateAccountType" asp-route-id=@accountType.Id>Edit</a>
 					<a class="btn btn-danger" asp-action="ConfirmDeleteAccountType" asp-route-id=@accountType.Id>Delete</a>
 				</td>
@@ -34,8 +35,35 @@
 
 @section Scripts {
 	<script>
+		const $urlToOrder = '@Url.Action("OrderAccountTypes")';
+
 		$(function() {
-			$("#reordenable").sortable();
+			$("#reordenable").sortable({
+				stop: async function(e, ui) {
+					await updateAccountTypesOrder();
+				}
+			});
+
+			async function updateAccountTypesOrder() {
+				const $accountTypesId = getAccountTypesId();
+				await orderAccountTypes($accountTypesId);
+			}
+
+			function getAccountTypesId() {
+				return $(".account-id").map(function () {
+					return $(this).val();
+				}).get();
+			}
+
+			async function orderAccountTypes(accountTypesId) {
+				await fetch($urlToOrder, {
+					method: "POST",
+					body: JSON.stringify(accountTypesId),
+					headers: {
+						"Content-Type": "application/json"
+					}
+				});
+			}
 		})
 	</script>
 }
