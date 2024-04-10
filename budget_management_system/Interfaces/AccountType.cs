@@ -18,6 +18,7 @@ namespace budget_management_system.Interfaces
 		Task UpdateAccountType(AccountTypeModel accountType);
 		Task<AccountTypeModel> GetAccountTypeById(int id, int userId);
 		Task DeleteAccountType(int id);
+		Task OrderAccountTypes(IEnumerable<AccountTypeModel> accountTypesOrdered);
 
 	}
 }
