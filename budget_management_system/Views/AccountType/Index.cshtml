@@ -25,7 +25,7 @@
 				</td>
 				<td>
 					<a class="btn btn-primary" asp-action="UpdateAccountType" asp-route-id=@accountType.Id>Edit</a>
-					<a class="btn btn-danger">Delete</a>
+					<a class="btn btn-danger" asp-action="ConfirmDeleteAccountType" asp-route-id=@accountType.Id>Delete</a>
 				</td>
 			</tr>
 		}
