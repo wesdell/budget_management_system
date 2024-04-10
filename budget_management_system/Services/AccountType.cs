@@ -60,5 +60,14 @@ namespace budget_management_system.Services
 				accountType
 				);
 		}
+
+		public async Task DeleteAccountType(int id)
+		{
+			using SqlConnection connection = new SqlConnection(connectionString);
+			await connection.ExecuteAsync(
+				@"DELETE AccountType WHERE id = @Id",
+				new { Id = id }
+				);
+		}
 	}
 }
