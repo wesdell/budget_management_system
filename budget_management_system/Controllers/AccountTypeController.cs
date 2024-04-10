@@ -107,5 +107,22 @@ namespace budget_management_system.Controllers
 			await this._accountType.DeleteAccountType(id);
 			return RedirectToAction("Index");
 		}
+
+		[HttpPost]
+		public async Task<IActionResult> OrderAccountTypes([FromBody] int[] newAccountTypes)
+		{
+			IEnumerable<AccountTypeModel> accountTypes = await this._accountType.GetAccountTypes(_userData.GetUserId());
+			IEnumerable<int> accountTypesId = accountTypes.Select(acc => acc.Id);
+
+			List<int> intrusiveAccountTypes = newAccountTypes.Except(accountTypesId).ToList();
+			if (intrusiveAccountTypes.Count > 0)
+			{
+				return Forbid();
+			}
+
+			IEnumerable<AccountTypeModel> accountTypesOrdered = newAccountTypes.Select((value, i) => new AccountTypeModel { Id = value, Order = i + 1 }).AsEnumerable();
+			await this._accountType.OrderAccountTypes(accountTypesOrdered);
+			return Ok();
+		}
 	}
 }
