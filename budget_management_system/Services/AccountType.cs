@@ -2,6 +2,7 @@
 using budget_management_system.Models;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace budget_management_system.Services
 {
@@ -18,8 +19,10 @@ namespace budget_management_system.Services
 		{
 			using SqlConnection connection = new SqlConnection(connectionString);
 			int id = await connection.QuerySingleAsync<int>(
-				@"INSERT INTO AccountType (name, user_id, ""order"") VALUES (@Name, @UserId, 0); SELECT SCOPE_IDENTITY();",
-				accountType);
+				"CreateAccountType",
+				new { user_id = accountType.UserId, name = accountType.Name },
+				commandType: System.Data.CommandType.StoredProcedure
+				);
 
 			accountType.Id = id;
 		}
