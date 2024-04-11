@@ -14,6 +14,7 @@ namespace budget_management_system.Models
 		[StringLength(maximumLength: 150)]
 		public string Description { get; set; }
 		public decimal Balance { get; set; }
+		public string AccountType { get; set; }
 		[Display(Name = "Account type")]
 		public int AccountTypeId { get; set; }
 	}
