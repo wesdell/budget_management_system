@@ -8,11 +8,13 @@ namespace budget_management_system.Interfaces
 		string Name { get; set; }
 		decimal Balance { get; set; }
 		string Description { get; set; }
+		string AccountType { get; set; }
 		int AccountTypeId { get; set; }
 	}
 
 	public interface IAccountDBActions
 	{
 		Task CreateAccount(AccountModel account);
+		Task<IEnumerable<AccountModel>> GetAccounts(int userId);
 	}
 }
