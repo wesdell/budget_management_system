@@ -19,6 +19,14 @@ namespace budget_management_system.Controllers
 		}
 
 		[HttpGet]
+		public async Task<IActionResult> Index()
+		{
+			IEnumerable<AccountModel> accounts = await this._account.GetAccounts(this._user.GetUserId());
+			List<AccountIndexViewModel> model = accounts.GroupBy(account => account.AccountType).Select(group => new AccountIndexViewModel { AccountType = group.Key, Accounts = group.AsEnumerable() }).ToList();
+			return View(model);
+		}
+
+		[HttpGet]
 		public async Task<ActionResult> CreateAccount()
 		{
 			CreateAccountViewModel model = new CreateAccountViewModel();
