@@ -2,7 +2,79 @@
 
 @{
 	ViewData["Title"] = "Accounts";
+
+	string FormatBalance(decimal balance)
+	{
+		return Math.Abs(balance).ToString("N");
+	}
+
+	string GetBalanceClass(decimal balance)
+	{
+		return balance >= 0 ? "active" : "passive";
+	}
 }
 
 <h1>Accounts</h1>
 <a asp-action="CreateAccount" class="btn btn-primary mb-3">Add</a>
+
+<section class="accounts-balance-container mb-3">
+	<section>
+		<article>
+			<strong>Active</strong>
+		</article>
+		<article class="active">
+			@FormatBalance(Model.Where(account => account.TotalBalance > 0).Sum(account => account.TotalBalance))
+		</article>
+	</section>
+	<section>
+		<article>
+			<strong>Passive</strong>
+		</article>
+		<article class="passive">
+			@FormatBalance(Model.Where(account => account.TotalBalance < 0).Sum(account => account.TotalBalance))
+		</article>
+	</section>
+	<section>
+		<article>
+			<strong>Total</strong>
+		</article>
+		<article>
+			@FormatBalance(Model.Sum(account => account.TotalBalance))
+		</article>
+	</section>
+</section>
+
+<section class="accordion accounts-accordion">
+	@foreach (var account in Model)
+	{
+		<article class="accordion-item">
+			<h2 id="accounts-header" class="accordion-header">
+				@{
+					string id = account.AccountType.Replace(" ", "");
+					string dataTarget = "#" + id;
+					string accountTypeClass = GetBalanceClass(account.TotalBalance);
+				}
+				<button type="button" data-bs-target=@dataTarget data-bs-toggle="collapse" class="accordion-button">
+					<span class="me-3">
+						<span><strong>@account.AccountType</strong></span>
+						<span class=@accountTypeClass>@FormatBalance(account.TotalBalance)</span>
+					</span>
+				</button>
+			</h2>
+			<section id=@id class="accordion-collapse collapse show">
+				<article>
+					<ul class="list-group">
+						@foreach (var item in account.Accounts)
+						{
+							string accountClass = GetBalanceClass(item.Balance);
+							<li class="list-group-item">
+								<span><strong>@item.Name</strong></span>
+								<span class=@accountClass>@FormatBalance(item.Balance)</span>
+							</li>
+						}
+					</ul>
+				</article>
+			</section>
+		</article>
+	}
+</section>
