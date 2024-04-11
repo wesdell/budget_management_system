@@ -29,9 +29,9 @@ namespace budget_management_system.Services
 		{
 			using SqlConnection connection = new SqlConnection(this._connectionString);
 			return await connection.QueryAsync<AccountModel>(
-				@"SELECT acc.id, acc.name, acc.balance, acct.name AS account_type FROM Account AS acc
-				INNER JOIN AccountType AS acct ON acc.account_type_id = acct.id
-				WHERE acct.user_id = @UserId ORDER BY acct.""order""",
+				@"SELECT Account.id, Account.name, Account.balance, AccountType.name AS AccountType FROM Account
+				INNER JOIN AccountType ON AccountType.id = Account.account_type_id
+				WHERE AccountType.user_id = 1 ORDER BY AccountType.""order""",
 				new { UserId = userId }
 				);
 		}
