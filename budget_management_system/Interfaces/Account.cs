@@ -1,4 +1,6 @@
-﻿namespace budget_management_system.Interfaces
+﻿using budget_management_system.Models;
+
+namespace budget_management_system.Interfaces
 {
 	public interface IAccount
 	{
@@ -7,5 +9,10 @@
 		decimal Balance { get; set; }
 		string Description { get; set; }
 		int AccountTypeId { get; set; }
+	}
+
+	public interface IAccountDBActions
+	{
+		Task CreateAccount(AccountModel account);
 	}
 }
