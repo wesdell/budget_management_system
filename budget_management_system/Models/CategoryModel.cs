@@ -11,6 +11,7 @@ namespace budget_management_system.Models
 		[StringLength(maximumLength: 50)]
 		[IsFirstLetterUpper]
 		public string Name { get; set; }
+		[Display(Name = "Transaction type")]
 		public TransactionType TransactionTypeId { get; set; }
 		public int UserId { get; set; }
 	}
