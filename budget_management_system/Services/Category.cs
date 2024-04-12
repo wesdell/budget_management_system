@@ -23,5 +23,14 @@ namespace budget_management_system.Services
 				);
 			category.Id = id;
 		}
+
+		public async Task<IEnumerable<CategoryModel>> GetCategories(int userId)
+		{
+			using SqlConnection connection = new SqlConnection(this._connectionString);
+			return await connection.QueryAsync<CategoryModel>(
+				@"SELECT id, name, transaction_type_id AS TransactionTypeId, user_id AS UserId FROM Category WHERE user_id = @UserId",
+				new { UserId = userId }
+				);
+		}
 	}
 }
