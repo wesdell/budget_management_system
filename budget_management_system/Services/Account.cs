@@ -55,5 +55,14 @@ namespace budget_management_system.Services
 				account
 				);
 		}
+
+		public async Task DeleteAccount(int id)
+		{
+			using SqlConnection connection = new SqlConnection(this._connectionString);
+			await connection.ExecuteAsync(
+				@"DELETE Account WHERE id = @Id",
+				new { Id = id }
+				);
+		}
 	}
 }
