@@ -56,6 +56,17 @@ namespace budget_management_system.Controllers
 			return View(model);
 		}
 
+		[HttpGet]
+		public async Task<IActionResult> ConfirmDeleteAccount(int id)
+		{
+			AccountModel account = await this._account.GetAccountById(id, this._user.GetUserId());
+			if (account is null)
+			{
+				return RedirectToAction("NotFound", "Home");
+			}
+			return View(account);
+		}
+
 		[HttpPost]
 		public async Task<IActionResult> CreateAccount(CreateAccountViewModel account)
 		{
@@ -94,6 +105,19 @@ namespace budget_management_system.Controllers
 			await this._account.UpdateAccount(newAccount);
 			return RedirectToAction("Index");
 		}
+
+		[HttpPost]
+		public async Task<IActionResult> DeleteAccount(int id)
+		{
+			AccountModel account = await this._account.GetAccountById(id, this._user.GetUserId());
+			if (account is null)
+			{
+				return RedirectToAction("NotFound", "Home");
+			}
+			await this._account.DeleteAccount(id);
+			return RedirectToAction("Index");
+		}
+
 
 		private async Task<IEnumerable<SelectListItem>> GetAccountTypes(int userId)
 		{
