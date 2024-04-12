@@ -16,26 +16,3 @@
 .passive {
     color: coral;
 }
-
-#accounts-header {
-}
-
-.accounts-accordion ul li {
-    display: flex;
-    justify-content: space-between;
-}
-
-.accounts-accordion button {
-    color: black !important;
-    font-size: 1.25rem;
-}
-
-    .accounts-accordion button > span {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-    }
-
-.accounts-accordion .accordion-collapse {
-    font-size: 1.05rem;
-}
