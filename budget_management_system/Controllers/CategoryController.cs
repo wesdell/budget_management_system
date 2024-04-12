@@ -23,7 +23,7 @@ namespace budget_management_system.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> CreateCategory()
+		public Task<IActionResult> CreateCategory()
 		{
 			return View();
 		}
