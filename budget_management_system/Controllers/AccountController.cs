@@ -34,6 +34,28 @@ namespace budget_management_system.Controllers
 			return View(model);
 		}
 
+		[HttpGet]
+		public async Task<IActionResult> UpdateAccount(int id)
+		{
+			AccountModel account = await this._account.GetAccountById(id, this._user.GetUserId());
+			if (account == null)
+			{
+				return RedirectToAction("NotFound", "Home");
+			}
+
+			CreateAccountViewModel model = new CreateAccountViewModel()
+			{
+				Id = account.Id,
+				Name = account.Name,
+				AccountTypeId = account.AccountTypeId,
+				Balance = account.Balance,
+				Description = account.Description
+			};
+
+			model.AccountList = await this.GetAccountTypes(this._user.GetUserId());
+			return View(model);
+		}
+
 		[HttpPost]
 		public async Task<IActionResult> CreateAccount(CreateAccountViewModel account)
 		{
@@ -51,6 +73,25 @@ namespace budget_management_system.Controllers
 			}
 
 			await _account.CreateAccount(account);
+			return RedirectToAction("Index");
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> UpdateAccount(CreateAccountViewModel newAccount)
+		{
+			AccountModel account = await this._account.GetAccountById(newAccount.Id, this._user.GetUserId());
+			if (account is null)
+			{
+				return RedirectToAction("NotFound", "Home");
+			}
+
+			AccountTypeModel accountType = await this._accountType.GetAccountTypeById(newAccount.AccountTypeId, this._user.GetUserId());
+			if (accountType is null)
+			{
+				return RedirectToAction("NotFound", "Home");
+			}
+
+			await this._account.UpdateAccount(newAccount);
 			return RedirectToAction("Index");
 		}
 
