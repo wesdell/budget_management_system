@@ -1,0 +1,31 @@
+﻿@using budget_management_system.Interfaces
+
+@model CategoryModel
+
+@{
+	ViewData["Title"] = "Create category";
+}
+
+<h1>Create category</h1>
+<h5>Category allows you to define if you are having incomes or expenses.</h5>
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<form asp-controller="Category" asp-action="CreateCategory">
+	<div class="mb-3">
+		<label asp-for="Name" class="form-label"></label>
+		<input type="text" asp-for="Name" class="form-control" />
+		<span asp-validation-for="Name" class="text-danger"></span>
+	</div>
+	<div class="mb-3">
+		<label asp-for="TransactionTypeId" class="form-label"></label>
+		<select type="text" asp-for="TransactionTypeId" class="form-select" asp-items="@Html.GetEnumSelectList<TransactionType>()"></select>
+		<span asp-validation-for="TransactionTypeId" class="text-danger"></span>
+	</div>
+	<button type="submit" class="btn btn-primary">Send</button>
+	<a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}
