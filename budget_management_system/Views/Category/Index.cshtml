@@ -1,0 +1,37 @@
+﻿@model IEnumerable<CategoryModel>
+
+@{
+	ViewData["Title"] = "Categories";
+}
+
+
+<h1>Categories</h1>
+<a asp-action="CreateCategory" class="btn btn-primary mb-3">Add</a>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Actions</th>
+			<th>Type</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var category in Model)
+		{
+			<tr>
+				<td>
+					@category.Name
+				</td>
+				<td>
+					<input type="hidden" value=@category.Id class="account-id" />
+					<a class="btn btn-primary" asp-action="UpdateCategory" asp-route-id=@category.Id>Edit</a>
+					<a class="btn btn-danger" asp-action="ConfirmDeleteCategory" asp-route-id=@category.Id>Delete</a>
+				</td>
+				<td>
+					@category.TransactionTypeId.ToString()
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
