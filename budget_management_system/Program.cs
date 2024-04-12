@@ -14,6 +14,7 @@ namespace budget_management_system
 			builder.Services.AddTransient<IAccountTypeDBActions, AccountType>();
 			builder.Services.AddTransient<IUserDBActions, User>();
 			builder.Services.AddTransient<IAccountDBActions, Account>();
+			builder.Services.AddTransient<ICategoryDBActions, Category>();
 
 			var app = builder.Build();
 
