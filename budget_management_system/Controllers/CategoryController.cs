@@ -16,6 +16,13 @@ namespace budget_management_system.Controllers
 		}
 
 		[HttpGet]
+		public async Task<IActionResult> Index()
+		{
+			IEnumerable<CategoryModel> categories = await this._categoryService.GetCategories(this._userService.GetUserId());
+			return View(categories);
+		}
+
+		[HttpGet]
 		public async Task<IActionResult> CreateCategory()
 		{
 			return View();
@@ -29,7 +36,7 @@ namespace budget_management_system.Controllers
 				return View(category);
 			}
 
-			category.Id = this._userService.GetUserId();
+			category.UserId = this._userService.GetUserId();
 			await this._categoryService.CreateCategory(category);
 			return RedirectToAction("Index");
 		}
