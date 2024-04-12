@@ -18,5 +18,6 @@ namespace budget_management_system.Interfaces
 		Task<IEnumerable<AccountModel>> GetAccounts(int userId);
 		Task<AccountModel> GetAccountById(int id, int userId);
 		Task UpdateAccount(CreateAccountViewModel account);
+		Task DeleteAccount(int id);
 	}
 }
