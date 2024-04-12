@@ -13,5 +13,6 @@ namespace budget_management_system.Interfaces
 	public interface ICategoryDBActions
 	{
 		Task CreateCategory(CategoryModel category);
+		Task<IEnumerable<CategoryModel>> GetCategories(int userId);
 	}
 }
