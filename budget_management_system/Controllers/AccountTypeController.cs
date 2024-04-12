@@ -6,19 +6,19 @@ namespace budget_management_system.Controllers
 {
 	public class AccountTypeController : Controller
 	{
-		private readonly IAccountTypeDBActions _accountType;
-		private readonly IUserDBActions _userData;
+		private readonly IAccountTypeDBActions _accountTypeService;
+		private readonly IUserDBActions _userService;
 
-		public AccountTypeController(IAccountTypeDBActions accountTypeData, IUserDBActions userData)
+		public AccountTypeController(IAccountTypeDBActions accountType, IUserDBActions user)
 		{
-			this._accountType = accountTypeData;
-			this._userData = userData;
+			this._accountTypeService = accountType;
+			this._userService = user;
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> Index()
 		{
-			IEnumerable<AccountTypeModel> accountTypes = await _accountType.GetAccountTypes(_userData.GetUserId());
+			IEnumerable<AccountTypeModel> accountTypes = await this._accountTypeService.GetAccountTypes(this._userService.GetUserId());
 			return View(accountTypes);
 		}
 
@@ -31,7 +31,7 @@ namespace budget_management_system.Controllers
 		[HttpGet]
 		public async Task<IActionResult> UpdateAccountType(int id)
 		{
-			AccountTypeModel accountType = await this._accountType.GetAccountTypeById(id, this._userData.GetUserId());
+			AccountTypeModel accountType = await this._accountTypeService.GetAccountTypeById(id, this._userService.GetUserId());
 			if (accountType is null)
 			{
 				return RedirectToAction("NotFound", "Home");
@@ -42,7 +42,7 @@ namespace budget_management_system.Controllers
 		[HttpGet]
 		public async Task<IActionResult> ConfirmDeleteAccountType(int id)
 		{
-			AccountTypeModel accountType = await this._accountType.GetAccountTypeById(id, this._userData.GetUserId());
+			AccountTypeModel accountType = await this._accountTypeService.GetAccountTypeById(id, this._userService.GetUserId());
 			if (accountType is null)
 			{
 				return RedirectToAction("NotFound", "Home");
@@ -53,7 +53,7 @@ namespace budget_management_system.Controllers
 		[HttpGet]
 		public async Task<IActionResult> CheckAccountTypeAlreadyExists(string name)
 		{
-			bool accountTypeAlreadyExists = await _accountType.AccountAlreadyExists(name, _userData.GetUserId());
+			bool accountTypeAlreadyExists = await this._accountTypeService.AccountAlreadyExists(name, this._userService.GetUserId());
 			if (accountTypeAlreadyExists)
 			{
 				return Json($"{name} account already exists.");
@@ -69,9 +69,9 @@ namespace budget_management_system.Controllers
 				return View(accountTypeData);
 			}
 
-			accountTypeData.UserId = _userData.GetUserId();
+			accountTypeData.UserId = this._userService.GetUserId();
 
-			bool recordExists = await _accountType.AccountAlreadyExists(accountTypeData.Name, accountTypeData.UserId);
+			bool recordExists = await this._accountTypeService.AccountAlreadyExists(accountTypeData.Name, accountTypeData.UserId);
 
 			if (recordExists)
 			{
@@ -79,7 +79,7 @@ namespace budget_management_system.Controllers
 				return View(accountTypeData);
 			}
 
-			await this._accountType.CreateAccountType(accountTypeData);
+			await this._accountTypeService.CreateAccountType(accountTypeData);
 
 			return RedirectToAction("Index");
 		}
@@ -87,31 +87,31 @@ namespace budget_management_system.Controllers
 		[HttpPost]
 		public async Task<IActionResult> UpdateAccountType(AccountTypeModel accountTypeData)
 		{
-			AccountTypeModel accountType = await this._accountType.GetAccountTypeById(accountTypeData.Id, this._userData.GetUserId());
+			AccountTypeModel accountType = await this._accountTypeService.GetAccountTypeById(accountTypeData.Id, this._userService.GetUserId());
 			if (accountType is null)
 			{
 				return RedirectToAction("NotFound", "Home");
 			}
-			await this._accountType.UpdateAccountType(accountTypeData);
+			await this._accountTypeService.UpdateAccountType(accountTypeData);
 			return RedirectToAction("Index");
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> DeleteAccountType(int id)
 		{
-			AccountTypeModel accountType = await this._accountType.GetAccountTypeById(id, this._userData.GetUserId());
+			AccountTypeModel accountType = await this._accountTypeService.GetAccountTypeById(id, this._userService.GetUserId());
 			if (accountType is null)
 			{
 				return RedirectToAction("NotFound", "Home");
 			}
-			await this._accountType.DeleteAccountType(id);
+			await this._accountTypeService.DeleteAccountType(id);
 			return RedirectToAction("Index");
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> OrderAccountTypes([FromBody] int[] newAccountTypes)
 		{
-			IEnumerable<AccountTypeModel> accountTypes = await this._accountType.GetAccountTypes(_userData.GetUserId());
+			IEnumerable<AccountTypeModel> accountTypes = await this._accountTypeService.GetAccountTypes(this._userService.GetUserId());
 			IEnumerable<int> accountTypesId = accountTypes.Select(acc => acc.Id);
 
 			List<int> intrusiveAccountTypes = newAccountTypes.Except(accountTypesId).ToList();
@@ -121,7 +121,7 @@ namespace budget_management_system.Controllers
 			}
 
 			IEnumerable<AccountTypeModel> accountTypesOrdered = newAccountTypes.Select((value, i) => new AccountTypeModel { Id = value, Order = i + 1 }).AsEnumerable();
-			await this._accountType.OrderAccountTypes(accountTypesOrdered);
+			await this._accountTypeService.OrderAccountTypes(accountTypesOrdered);
 			return Ok();
 		}
 	}
