@@ -40,14 +40,14 @@ namespace budget_management_system.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> ConfirmDeleteCategory(CategoryModel category)
+		public async Task<IActionResult> ConfirmDeleteCategory(int id)
 		{
-			CategoryModel model = await this._categoryService.GetCategoryById(category.Id, this._userService.GetUserId());
+			CategoryModel category = await this._categoryService.GetCategoryById(id, this._userService.GetUserId());
 			if (category is null)
 			{
 				return RedirectToAction("NotFound", "Home");
 			}
-			return View(model);
+			return View(category);
 		}
 
 		[HttpPost]
