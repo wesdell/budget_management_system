@@ -39,6 +39,17 @@ namespace budget_management_system.Controllers
 			return View(category);
 		}
 
+		[HttpGet]
+		public async Task<IActionResult> ConfirmDeleteCategory(CategoryModel category)
+		{
+			CategoryModel model = await this._categoryService.GetCategoryById(category.Id, this._userService.GetUserId());
+			if (category is null)
+			{
+				return RedirectToAction("NotFound", "Home");
+			}
+			return View(model);
+		}
+
 		[HttpPost]
 		public async Task<IActionResult> CreateCategory(CategoryModel category)
 		{
@@ -68,6 +79,19 @@ namespace budget_management_system.Controllers
 
 			newCategory.UserId = this._userService.GetUserId();
 			await this._categoryService.UpdateCategory(newCategory);
+			return RedirectToAction("Index");
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> DeleteCategory(int id)
+		{
+			CategoryModel category = await this._categoryService.GetCategoryById(id, this._userService.GetUserId());
+			if (category is null)
+			{
+				return RedirectToAction("NotFound", "Home");
+			}
+
+			await this._categoryService.DeleteCategory(id);
 			return RedirectToAction("Index");
 		}
 	}
