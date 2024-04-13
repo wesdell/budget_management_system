@@ -23,9 +23,20 @@ namespace budget_management_system.Controllers
 		}
 
 		[HttpGet]
-		public Task<IActionResult> CreateCategory()
+		public IActionResult CreateCategory()
 		{
 			return View();
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> UpdateCategory(int id)
+		{
+			CategoryModel category = await this._categoryService.GetCategoryById(id, this._userService.GetUserId());
+			if (category is null)
+			{
+				return RedirectToAction("NotFound", "Home");
+			}
+			return View(category);
 		}
 
 		[HttpPost]
@@ -38,6 +49,25 @@ namespace budget_management_system.Controllers
 
 			category.UserId = this._userService.GetUserId();
 			await this._categoryService.CreateCategory(category);
+			return RedirectToAction("Index");
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> UpdateCategory(CategoryModel newCategory)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View(newCategory);
+			}
+
+			CategoryModel category = await this._categoryService.GetCategoryById(newCategory.Id, this._userService.GetUserId());
+			if (category is null)
+			{
+				return RedirectToAction("NotFound", "Home");
+			}
+
+			newCategory.UserId = this._userService.GetUserId();
+			await this._categoryService.UpdateCategory(newCategory);
 			return RedirectToAction("Index");
 		}
 	}
