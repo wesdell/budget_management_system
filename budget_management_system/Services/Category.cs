@@ -50,5 +50,14 @@ namespace budget_management_system.Services
 				category
 				);
 		}
+
+		public async Task DeleteCategory(int id)
+		{
+			using SqlConnection connection = new SqlConnection(this._connectionString);
+			await connection.ExecuteAsync(
+				@"DELETE FROM Category WHERE id = @Id",
+				new { Id = id }
+				);
+		}
 	}
 }
