@@ -12,7 +12,7 @@ namespace budget_management_system.Models
 		[IsFirstLetterUpper]
 		public string Name { get; set; }
 		[Display(Name = "Transaction type")]
-		public TransactionType TransactionTypeId { get; set; }
+		public ETransactionType TransactionTypeId { get; set; }
 		public int UserId { get; set; }
 	}
 }
