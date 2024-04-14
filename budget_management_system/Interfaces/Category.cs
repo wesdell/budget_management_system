@@ -6,7 +6,7 @@ namespace budget_management_system.Interfaces
 	{
 		int Id { get; set; }
 		string Name { get; set; }
-		TransactionType TransactionTypeId { get; set; }
+		ETransactionType TransactionTypeId { get; set; }
 		int UserId { get; set; }
 	}
 
