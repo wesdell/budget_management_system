@@ -19,7 +19,7 @@
 	</div>
 	<div class="mb-3">
 		<label asp-for="TransactionTypeId" class="form-label"></label>
-		<select type="text" asp-for="TransactionTypeId" class="form-select" asp-items="@Html.GetEnumSelectList<TransactionType>()"></select>
+		<select type="text" asp-for="TransactionTypeId" class="form-select" asp-items="@Html.GetEnumSelectList<ETransactionType>()"></select>
 		<span asp-validation-for="TransactionTypeId" class="text-danger"></span>
 	</div>
 	<button type="submit" class="btn btn-primary">Send</button>
