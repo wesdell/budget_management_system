@@ -33,6 +33,15 @@ namespace budget_management_system.Services
 				);
 		}
 
+		public async Task<IEnumerable<CategoryModel>> GetCategories(int userId, ETransactionType transactionType)
+		{
+			using SqlConnection connection = new SqlConnection(this._connectionString);
+			return await connection.QueryAsync<CategoryModel>(
+				@"SELECT id, name, transaction_type_id AS TransactionTypeId, user_id AS UserId FROM Category WHERE user_id = @UserId AND transaction_type_id = @TransactionTypeId",
+				new { UserId = userId, TransactionTypeId = transactionType }
+				);
+		}
+
 		public async Task<CategoryModel> GetCategoryById(int id, int userId)
 		{
 			using SqlConnection connection = new SqlConnection(this._connectionString);
