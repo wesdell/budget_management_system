@@ -14,6 +14,7 @@ namespace budget_management_system.Interfaces
 	{
 		Task CreateCategory(CategoryModel category);
 		Task<IEnumerable<CategoryModel>> GetCategories(int userId);
+		Task<IEnumerable<CategoryModel>> GetCategories(int userId, ETransactionType transactionType);
 		Task<CategoryModel> GetCategoryById(int id, int userId);
 		Task UpdateCategory(CategoryModel category);
 		Task DeleteCategory(int id);
