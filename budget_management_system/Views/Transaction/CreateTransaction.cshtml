@@ -29,7 +29,7 @@
 	</div>
 	<div class="mb-3">
 		<label asp-for="CategoryId" class="form-label"></label>
-		<select asp-for="CategoryId" class="form-select"></select>
+		<select asp-for="CategoryId" asp-items=@Model.CategoryList class="form-select"></select>
 		<span asp-validation-for="CategoryId" class="text-danger"></span>
 	</div>
 	<div class="mb-3">
@@ -48,4 +48,27 @@
 
 @section Scripts {
 	<partial name="_ValidationScriptsPartial" />
+
+	<script>
+		const url = "@Url.Action("GetCategories")"
+
+		$(function () {
+			$("#TransactionTypeId").change(async function () {
+				const $selectedValue = $(this).val();
+
+				const res = await fetch(url, {
+					method: "POST",
+					body: $selectedValue,
+					headers: {
+						"Content-Type": "application/json"
+					}
+				});
+
+				const json = await res.json();
+
+				const $options = json.map(el => `<option value=${el.value}>${el.text}</option>`);
+				$("#CategoryId").html($options);
+			})
+		})
+	</script>
 }
