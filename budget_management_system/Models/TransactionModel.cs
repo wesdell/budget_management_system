@@ -9,10 +9,14 @@ namespace budget_management_system.Models
 		[StringLength(maximumLength: 150)]
 		public string Description { get; set; }
 		public decimal Amount { get; set; }
+		[Display(Name = "Created at")]
+		[DataType(DataType.Date)]
 		public DateTime CreatedAt { get; set; } = DateTime.Today;
 		public int UserId { get; set; }
+		[Display(Name = "Account")]
 		public int AccountId { get; set; }
 		[Range(1, maximum: int.MaxValue)]
+		[Display(Name = "Category")]
 		public int CategoryId { get; set; }
 	}
 }
