@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using budget_management_system.Interfaces;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace budget_management_system.Models
 {
@@ -6,5 +8,7 @@ namespace budget_management_system.Models
 	{
 		public IEnumerable<SelectListItem> AccountList { get; set; }
 		public IEnumerable<CategoryModel> CategoryList { get; set; }
+		[Display(Name = "Transaction type")]
+		public ETransactionType TransactionTypeId { get; set; }
 	}
 }
