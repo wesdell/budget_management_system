@@ -22,6 +22,12 @@ namespace budget_management_system.Controllers
 		}
 
 		[HttpGet]
+		public IActionResult Index()
+		{
+			return View();
+		}
+
+		[HttpGet]
 		public async Task<IActionResult> CreateTransaction()
 		{
 			CreateTransactionViewModel model = new CreateTransactionViewModel();
@@ -30,11 +36,36 @@ namespace budget_management_system.Controllers
 			return View(model);
 		}
 
-		[HttpGet]
-		public async Task<IEnumerable<SelectListItem>> GetAccounts(int userId)
+		[HttpPost]
+		public async Task<IActionResult> CreateTransaction(CreateTransactionViewModel transactionModel)
 		{
-			IEnumerable<AccountModel> accounts = await this._accountService.GetAccounts(userId);
-			return accounts.Select(account => new SelectListItem(account.Name, account.Id.ToString()));
+			if (!ModelState.IsValid)
+			{
+				transactionModel.AccountList = await this.GetAccounts(this._userService.GetUserId());
+				transactionModel.CategoryList = await this.GetCategories(this._userService.GetUserId(), transactionModel.TransactionTypeId);
+				return View(transactionModel);
+			}
+
+			AccountModel account = await this._accountService.GetAccountById(transactionModel.AccountId, this._userService.GetUserId());
+			if (account is null)
+			{
+				return RedirectToAction("NotFound", "Home");
+			}
+
+			CategoryModel category = await this._categoryService.GetCategoryById(transactionModel.CategoryId, this._userService.GetUserId());
+			if (category is null)
+			{
+				return RedirectToAction("NotFound", "Home");
+			}
+
+			transactionModel.UserId = this._userService.GetUserId();
+			if (transactionModel.TransactionTypeId == ETransactionType.Expense)
+			{
+				transactionModel.Amount *= -1;
+			}
+
+			await this._transactionService.CreateTransaction(transactionModel);
+			return RedirectToAction("Index");
 		}
 
 		[HttpPost]
@@ -42,6 +73,12 @@ namespace budget_management_system.Controllers
 		{
 			IEnumerable<SelectListItem> categories = await this.GetCategories(this._userService.GetUserId(), transactionType);
 			return Ok(categories);
+		}
+
+		private async Task<IEnumerable<SelectListItem>> GetAccounts(int userId)
+		{
+			IEnumerable<AccountModel> accounts = await this._accountService.GetAccounts(userId);
+			return accounts.Select(account => new SelectListItem(account.Name, account.Id.ToString()));
 		}
 
 		private async Task<IEnumerable<SelectListItem>> GetCategories(int userId, ETransactionType transactionType)
