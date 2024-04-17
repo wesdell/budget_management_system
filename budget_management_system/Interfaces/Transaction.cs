@@ -18,6 +18,6 @@ namespace budget_management_system.Interfaces
 	{
 		Task CreateTransaction(TransactionModel transaction);
 		Task<TransactionModel> GetTransactionById(int id, int userId);
-		Task UpdateTransaction(TransactionModel transaction, int previosAccountId, int previousAmount);
+		Task UpdateTransaction(TransactionModel transaction, int previosAccountId, decimal previousAmount);
 	}
 }
