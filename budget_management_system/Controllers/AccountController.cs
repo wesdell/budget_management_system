@@ -1,4 +1,5 @@
-﻿using budget_management_system.Interfaces;
+﻿using AutoMapper;
+using budget_management_system.Interfaces;
 using budget_management_system.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,14 +9,16 @@ namespace budget_management_system.Controllers
 	public class AccountController : Controller
 	{
 		private readonly IAccountDBActions _accountService;
+		private readonly IMapper _mapper;
 		private readonly IAccountTypeDBActions _accountTypeService;
 		private readonly IUserDBActions _userService;
 
-		public AccountController(IAccountTypeDBActions accountType, IUserDBActions user, IAccountDBActions account)
+		public AccountController(IAccountTypeDBActions accountType, IUserDBActions user, IAccountDBActions account, IMapper mapper)
 		{
 			this._accountTypeService = accountType;
 			this._userService = user;
 			this._accountService = account;
+			this._mapper = mapper;
 		}
 
 		[HttpGet]
@@ -43,14 +46,7 @@ namespace budget_management_system.Controllers
 				return RedirectToAction("NotFound", "Home");
 			}
 
-			CreateAccountViewModel model = new CreateAccountViewModel()
-			{
-				Id = account.Id,
-				Name = account.Name,
-				AccountTypeId = account.AccountTypeId,
-				Balance = account.Balance,
-				Description = account.Description
-			};
+			CreateAccountViewModel model = this._mapper.Map<CreateAccountViewModel>(account);
 
 			model.AccountList = await this.GetAccountTypes(this._userService.GetUserId());
 			return View(model);
