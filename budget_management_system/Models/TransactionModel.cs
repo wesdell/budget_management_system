@@ -18,5 +18,7 @@ namespace budget_management_system.Models
 		[Range(1, maximum: int.MaxValue)]
 		[Display(Name = "Category")]
 		public int CategoryId { get; set; }
+		[Display(Name = "Transaction type")]
+		public ETransactionType TransactionTypeId { get; set; } = ETransactionType.Income;
 	}
 }
