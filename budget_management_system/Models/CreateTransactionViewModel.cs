@@ -8,7 +8,5 @@ namespace budget_management_system.Models
 	{
 		public IEnumerable<SelectListItem> AccountList { get; set; }
 		public IEnumerable<SelectListItem> CategoryList { get; set; }
-		[Display(Name = "Transaction type")]
-		public ETransactionType TransactionTypeId { get; set; } = ETransactionType.Income;
 	}
 }
