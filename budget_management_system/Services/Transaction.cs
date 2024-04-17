@@ -48,7 +48,7 @@ namespace budget_management_system.Services
 				);
 		}
 
-		public async Task UpdateTransaction(TransactionModel transaction, int previosAccountId, int previousAmount)
+		public async Task UpdateTransaction(TransactionModel transaction, int previosAccountId, decimal previousAmount)
 		{
 			using SqlConnection connection = new SqlConnection(this._connectionString);
 			await connection.ExecuteAsync(
