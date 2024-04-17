@@ -11,10 +11,13 @@ namespace budget_management_system.Interfaces
 		int UserId { get; set; }
 		int AccountId { get; set; }
 		int CategoryId { get; set; }
+		ETransactionType TransactionTypeId { get; set; }
 	}
 
 	public interface ITransactionDBActions
 	{
 		Task CreateTransaction(TransactionModel transaction);
+		Task<TransactionModel> GetTransactionById(int id, int userId);
+		Task UpdateTransaction(TransactionModel transaction, int previosAccountId, int previousAmount);
 	}
 }
