@@ -19,5 +19,6 @@ namespace budget_management_system.Interfaces
 		Task CreateTransaction(TransactionModel transaction);
 		Task<TransactionModel> GetTransactionById(int id, int userId);
 		Task UpdateTransaction(TransactionModel transaction, int previosAccountId, decimal previousAmount);
+		Task DeleteTransaction(int id);
 	}
 }
