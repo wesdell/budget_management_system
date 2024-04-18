@@ -128,6 +128,19 @@ namespace budget_management_system.Controllers
 		}
 
 		[HttpPost]
+		public async Task<IActionResult> DeleteTransaction(int id)
+		{
+			TransactionModel transaction = await this._transactionService.GetTransactionById(id, this._userService.GetUserId());
+			if (transaction is null)
+			{
+				return RedirectToAction("NotFound", "Home");
+			}
+
+			await this._transactionService.DeleteTransaction(id);
+			return RedirectToAction("Index");
+		}
+
+		[HttpPost]
 		public async Task<IActionResult> GetCategories([FromBody] ETransactionType transactionType)
 		{
 			IEnumerable<SelectListItem> categories = await this.GetCategories(this._userService.GetUserId(), transactionType);
