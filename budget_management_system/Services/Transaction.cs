@@ -67,5 +67,16 @@ namespace budget_management_system.Services
 				commandType: System.Data.CommandType.StoredProcedure
 				);
 		}
+
+		public async Task DeleteTransaction(int id)
+		{
+			using SqlConnection connection = new SqlConnection(this._connectionString);
+			await connection.ExecuteAsync(
+				"DeleteTransaction",
+				new { id },
+				commandType: System.Data.CommandType.StoredProcedure
+
+				);
+		}
 	}
 }
