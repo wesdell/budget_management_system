@@ -45,7 +45,8 @@
 		<textarea asp-for="Description" class="form-control"></textarea>
 		<span asp-validation-for="Description" class="text-danger"></span>
 	</div>
-	<button type="submit" class="btn btn-primary">Send</button>
+	<button type="submit" class="btn btn-primary">Update</button>
+	<button type="submit" asp-action="DeleteTransaction" class="btn btn-danger">Delete</button>
 	<a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
 
