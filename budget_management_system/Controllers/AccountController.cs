@@ -32,7 +32,7 @@ namespace budget_management_system.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Report(int id, int month, int year)
+		public async Task<IActionResult> TransactionReportByAccount(int id, int month, int year)
 		{
 			AccountModel account = await this._accountService.GetAccountById(id, this._userService.GetUserId());
 			if (account is null)
