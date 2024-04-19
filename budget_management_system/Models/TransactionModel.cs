@@ -8,6 +8,8 @@ namespace budget_management_system.Models
 		public int Id { get; set; }
 		[StringLength(maximumLength: 150)]
 		public string Description { get; set; }
+		public string Account { get; set; }
+		public string Category { get; set; }
 		public decimal Amount { get; set; }
 		[Display(Name = "Created at")]
 		[DataType(DataType.Date)]
