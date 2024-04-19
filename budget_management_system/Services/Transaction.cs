@@ -48,6 +48,20 @@ namespace budget_management_system.Services
 				);
 		}
 
+		public async Task<IEnumerable<TransactionModel>> GetTransactionByAccount(GetTransactionsByAccountModel transactionByAccount)
+		{
+			using SqlConnection connection = new SqlConnection(this._connectionString);
+			return await connection.QueryAsync<TransactionModel>(
+				@"SELECT ""Transaction"".id AS Id, ""Transaction"".amount AS Amount, ""Transaction"".created_at AS CreatedAt,
+				Category.name AS Category, Category.transaction_type_id AS TransactionTypeId, Account.name AS Account FROM ""Transaction""
+				INNER JOIN Category ON Category.id = ""Transaction"".category_id
+				INNER JOIN Account ON Account.id = ""Transaction"".account_id
+				WHERE ""Transaction"".account_id = @AccountId AND ""Transaction"".user_id = @UserId
+				AND ""Transaction"".created_at BETWEEN @CreatedAt AND @FinishedAt",
+				transactionByAccount
+				);
+		}
+
 		public async Task UpdateTransaction(TransactionModel transaction, int previosAccountId, decimal previousAmount)
 		{
 			using SqlConnection connection = new SqlConnection(this._connectionString);
