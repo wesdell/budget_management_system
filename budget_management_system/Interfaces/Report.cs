@@ -20,4 +20,3 @@ namespace budget_management_system.Interfaces
 		}
 	}
 }
-}
