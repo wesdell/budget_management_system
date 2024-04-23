@@ -1,0 +1,44 @@
+﻿@model ReportTransactionModel
+
+@{
+	ViewData["Title"] = "Account report";
+}
+
+<h1 class="mb-3">Report account: @ViewBag.Account</h1>
+
+<h4>
+	<a asp-route-month="@ViewBag.PreviousMonth" asp-route-year="@ViewBag.PreviousYear" class="btn btn-secondary">
+		<i class="bi-chevron-left"></i>
+	</a>
+	@Model.CreatedAt.ToString("MMM") - @Model.CreatedAt.Year
+	<a asp-route-month="@ViewBag.NextMonth" asp-route-year="@ViewBag.NextYear" class="btn btn-secondary">
+		<i class="bi-chevron-right"></i>
+	</a>
+</h4>
+
+<section class="accounts-balance-container mb-3">
+	<article>
+		<article>
+			<strong>Active</strong>
+		</article>
+		<article class="active">
+			@Model.IncomeAmount.ToString("N")
+		</article>
+	</article>
+	<article>
+		<article>
+			<strong>Passive</strong>
+		</article>
+		<article class="passive">
+			@Model.ExpenseAmount.ToString("N")
+		</article>
+	</article>
+	<article>
+		<article>
+			<strong>Total</strong>
+		</article>
+		<article class="active">
+			@Model.Total.ToString("N")
+		</article>
+	</article>
+</section>
