@@ -81,6 +81,8 @@ namespace budget_management_system.Controllers
 			ViewBag.NextMonth = CreatedAt.AddMonths(1).Month;
 			ViewBag.NextYear = CreatedAt.AddMonths(1).Year;
 
+			ViewBag.ReturnURL = HttpContext.Request.Path + HttpContext.Request.QueryString;
+
 			model.GroupedTransactions = transactionsByDate;
 			model.CreatedAt = CreatedAt;
 			model.FinishedAt = FinishedAt;

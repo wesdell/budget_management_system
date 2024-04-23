@@ -40,7 +40,7 @@ namespace budget_management_system.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> UpdateTransaction(int id)
+		public async Task<IActionResult> UpdateTransaction(int id, string url)
 		{
 			TransactionModel transaction = await this._transactionService.GetTransactionById(id, this._userService.GetUserId());
 			if (transaction is null)
@@ -59,6 +59,7 @@ namespace budget_management_system.Controllers
 			model.PreviousAccountId = transaction.AccountId;
 			model.AccountList = await this.GetAccounts(this._userService.GetUserId());
 			model.CategoryList = await this.GetCategories(this._userService.GetUserId(), transaction.TransactionTypeId);
+			model.ReturnURL = url;
 			return View(model);
 		}
 
@@ -124,11 +125,20 @@ namespace budget_management_system.Controllers
 			}
 
 			await this._transactionService.UpdateTransaction(newTransaction, transactionModel.PreviousAccountId, transactionModel.PreviousAmount);
-			return RedirectToAction("Index");
+
+			if (string.IsNullOrEmpty(transactionModel.ReturnURL))
+			{
+				return RedirectToAction("Index");
+			}
+			else
+			{
+				return LocalRedirect(transactionModel.ReturnURL);
+			}
+
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> DeleteTransaction(int id)
+		public async Task<IActionResult> DeleteTransaction(int id, string url)
 		{
 			TransactionModel transaction = await this._transactionService.GetTransactionById(id, this._userService.GetUserId());
 			if (transaction is null)
@@ -137,7 +147,15 @@ namespace budget_management_system.Controllers
 			}
 
 			await this._transactionService.DeleteTransaction(id);
-			return RedirectToAction("Index");
+
+			if (string.IsNullOrEmpty(url))
+			{
+				return RedirectToAction("Index");
+			}
+			else
+			{
+				return LocalRedirect(url);
+			}
 		}
 
 		[HttpPost]
